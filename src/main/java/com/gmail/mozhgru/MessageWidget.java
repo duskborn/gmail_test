@@ -16,6 +16,12 @@ public class MessageWidget extends AbstractPage {
     @FindBy(id = "")
     private WebElement message;
 
+    @FindBy(id = "")
+    private WebElement bttnSend;
+
+    @FindBy(id = "")
+    private WebElement bttnSaveAndClose;
+
     private String textOfElement = "";
 
     public MessageWidget(WebDriver driver) {
@@ -35,7 +41,7 @@ public class MessageWidget extends AbstractPage {
                 textOfElement = theme.getText();
                 break;
 
-            case "тело сообщения":
+            case "тело письма":
                 textOfElement = message.getText();
                 break;
 
@@ -44,5 +50,13 @@ public class MessageWidget extends AbstractPage {
         }
 
         return textOfElement;
+    }
+
+    public void saveAndClose() {
+        bttnSaveAndClose.click();
+    }
+
+    public void send() {
+        bttnSend.click();
     }
 }

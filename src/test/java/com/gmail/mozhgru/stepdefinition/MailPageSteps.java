@@ -57,6 +57,10 @@ public class MailPageSteps {
 
     @И("^нажимает кнопку \"([^\"]*)\"$")
     public void clickButton(String btnName) {
+//        mainPage = new MainPage(driver);
+//        loginPage = new LoginPage(driver);
+//        messageWidget = new MessageWidget(driver);
+
         switch (btnName) {
 
             case "далее":
@@ -68,12 +72,29 @@ public class MailPageSteps {
                 break;
 
             case "аккаунт google":
-                loginPage.checkAccount();
+                mainPage.checkAccount();
                 break;
 
             case "написать":
-                loginPage.compose();
+                mainPage.compose();
                 break;
+
+            case "сохранить и закрыть":
+                messageWidget.saveAndClose();
+                break;
+
+            case "черновики":
+                mainPage.checkDrafts();
+                break;
+
+            case "отправить":
+                messageWidget.send();
+                break;
+
+            case "отправленные":
+                mainPage.checkSentMessages();
+                break;
+
 
             default:
                 throw new IllegalArgumentException("Invalid button name:" + btnName);
@@ -112,6 +133,10 @@ public class MailPageSteps {
 
             case "последний черновик":
                 mainPage.chooseLastDraft();
+                break;
+
+            case "последнее отправленное письмо":
+                mainPage.chooseLastLetter();
                 break;
 
             default:

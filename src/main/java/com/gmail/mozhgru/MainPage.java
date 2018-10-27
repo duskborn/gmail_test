@@ -19,6 +19,21 @@ public class MainPage extends  AbstractPage {
     @FindBy(id = "")
     private WebElement lastDraft;
 
+    @FindBy(id = "")
+    private WebElement bttnAccount;
+
+    @FindBy(id = "")
+    private WebElement bttnCompose;
+
+    @FindBy(id = "")
+    private WebElement bttnDrafts;
+
+    @FindBy(id = "")
+    private WebElement bttnSentMessages;
+
+    @FindBy(id = "")
+    private WebElement lastLetter;
+
     public MainPage (WebDriver driver){
         super(driver);
         wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
@@ -47,5 +62,24 @@ public class MainPage extends  AbstractPage {
         tryPressButton(lastDraft);
     }
 
+    public void chooseLastLetter(){
+        tryPressButton(lastLetter);
+    }
+
+    public void checkAccount() {
+        bttnAccount.click();
+    }
+
+    public void compose() {
+        bttnCompose.click();
+    }
+
+    public void checkDrafts() {
+        bttnDrafts.click();
+    }
+
+    public void checkSentMessages() {
+        bttnSentMessages.click();
+    }
 
 }

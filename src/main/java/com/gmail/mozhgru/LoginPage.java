@@ -19,12 +19,6 @@ public class LoginPage extends  AbstractPage {
     @FindBy(id = "")
     private WebElement bttnDone;
 
-    @FindBy(id = "")
-    private WebElement bttnAccount;
-
-    @FindBy(id = "")
-    private WebElement bttnCompose;
-
     {
         driver.get("http://at.pflb.ru/matrixboard2/");
         wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
@@ -50,13 +44,5 @@ public class LoginPage extends  AbstractPage {
 
     public void done() {
         bttnDone.click();
-    }
-
-    public void checkAccount() {
-        bttnAccount.click();
-    }
-
-    public void compose() {
-        bttnCompose.click();
     }
 }
