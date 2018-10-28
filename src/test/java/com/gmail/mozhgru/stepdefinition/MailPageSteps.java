@@ -14,28 +14,34 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.*;
 
+import org.apache.log4j.Logger;
+
 public class MailPageSteps {
     private WebDriver driver = null;
     private LoginPage loginPage = null;
     private MainPage mainPage = null;
     private MessageWidget messageWidget = null;
+    static Logger logger = Logger.getLogger(MailPageSteps.class);
 
     @Before
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\mozhg\\jars\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        logger.info("before");
     }
 
     @After
     public void tearDown() {
         driver.quit();
+        logger.info("after");
     }
 
     @Пусть("^открыта страница входа в приложение '(.+)'$")
     public void openLoginPage(String url) {
         loginPage = new LoginPage(driver);
         loginPage.open(url);
+        logger.info("Пусть открыта страница входа в приложение");
     }
 
     @И("^пользователь вводит в поле \"([^\"]*)\" значение \"([^\"]*)\"$")
@@ -64,6 +70,7 @@ public class MailPageSteps {
             default:
                 throw new IllegalArgumentException("Invalid field name:" + fieldName);
         }
+        logger.info("И пользователь вводит в поле" + fieldName + " значение " + value);
     }
 
     @И("^нажимает кнопку \"([^\"]*)\"$")
@@ -111,6 +118,7 @@ public class MailPageSteps {
             default:
                 throw new IllegalArgumentException("Invalid button name:" + btnName);
         }
+        logger.info("И нажимает кнопку" + btnName);
     }
 
 
@@ -118,24 +126,28 @@ public class MailPageSteps {
     public void getErrorMessage(String error) {
         mainPage = new MainPage(driver);
         Assert.assertEquals(loginPage.getTextOfElement(), error);
+        logger.info("Тогда появилось сообщение о неуспешном входе: " + error);
     }
 
 
     @Тогда("^открылась главная страница$")
     public void mainPageOpened() {
         mainPage = new MainPage(driver);
+        logger.info("Тогда открылась главная страница.");
     }
 
     @Тогда("^в появившемся виджете видно почту пользователя \"([^\"]*)\"$")
     public void checkUserName(String text) {
         Assert.assertEquals(mainPage.getCurrentUser(), text);
+        logger.info("Тогда в появившемся виджете видно почту пользователя: " + text);
     }
 
 
     @Пусть("^пользователь выходит из учетной записи$")
-    public void pressLogout() throws Throwable {
+    public void pressLogout() {
         mainPage = new MainPage(driver);
         mainPage.tryLogOut();
+        logger.info("Пусть пользователь выходит из учетной записи.");
     }
 
     @Тогда("^пользователь выбирает \"([^\"]*)\"$")
@@ -154,16 +166,19 @@ public class MailPageSteps {
             default:
                 throw new IllegalArgumentException("Invalid element name:" + stringElement);
         }
+        logger.info("Тогда пользователь выбирает " + stringElement);
     }
 
     @И("^видит в поле \"([^\"]*)\" значение \"([^\"]*)\"$")
     public void checkTextInField(String field, String textInField) {
         Assert.assertEquals(messageWidget.getTextOfElement(field), textInField);
+        logger.info("И видит в поле " + field + "значение" + textInField);
     }
 
     @И("^видит, что появился виджет \"([^\"]*)\"$")
     public void checkMessageWidget(String letterHeaderText) {
         messageWidget = new MessageWidget(driver);
         Assert.assertEquals(messageWidget.getTextOfElement(letterHeaderText), letterHeaderText);
+        logger.info("И видит, что появился виджет " + letterHeaderText);
     }
 }
