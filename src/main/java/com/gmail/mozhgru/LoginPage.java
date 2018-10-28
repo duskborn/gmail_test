@@ -39,11 +39,13 @@ public class LoginPage extends  AbstractPage {
         driver.get(url);}
 
     public void fillUsername(String login) {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         mainPage = new MainPage(driver);
         mainPage.tryFillField(txtUsername, login);
     }
 
     public void fillPassword(String pass) {
+        mainPage = new MainPage(driver);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         mainPage.tryFillField(txtPassword, pass);
     }

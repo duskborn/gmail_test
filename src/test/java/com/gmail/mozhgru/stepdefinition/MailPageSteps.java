@@ -128,7 +128,7 @@ public class MailPageSteps {
 
     @Тогда("^в появившемся виджете видно почту пользователя \"([^\"]*)\"$")
     public void checkUserName(String text) {
-        Assert.assertEquals(text, mainPage.getCurrentUser());
+        Assert.assertEquals(mainPage.getCurrentUser(), text);
     }
 
 

@@ -13,8 +13,11 @@ public class MessageWidget extends AbstractPage {
     @FindBy(xpath = "//div[contains(text(), 'Получатели')]")
     private WebElement to;
 
-    @FindBy(xpath = "//span[contains(@email, '@gmail.com')][contains(text(), ' ')]")
+    @FindBy(xpath = "//span[contains(text(), '@mail.ru')]")
     private WebElement draftTo;
+
+    @FindBy(xpath = "//div[@role='main']/div/div/div/table/tbody/tr[1]/td//div[contains(text(), 'Кому')]/span")
+    private WebElement sentTo;
 
     @FindBy(xpath = "//textarea[@role='combobox'][@name='to']")
     private WebElement toCombobox;
@@ -27,6 +30,9 @@ public class MessageWidget extends AbstractPage {
 
     @FindBy(xpath = "//div[@aria-label='Тело письма']")
     private WebElement message;
+
+    @FindBy(xpath = "//div[@role='main']/div/div/div/table/tbody/tr[1]/td//div[@role='link']/div/span")
+    private WebElement sentMessage;
 
     @FindBy(xpath = "//div[@role='button'][contains(text(), 'Отправить')]")
     private WebElement bttnSend;
@@ -58,6 +64,12 @@ public class MessageWidget extends AbstractPage {
                 textOfElement = draftTo.getText();
                 break;
 
+            case "кому отправленного письма":
+                wait.until(drv -> sentTo.isDisplayed());
+                actions.moveToElement(sentTo);
+                textOfElement = sentTo.getText();
+                break;
+
             case "тема":
                 wait.until(drv -> draftTheme.isDisplayed());
                 actions.moveToElement(draftTheme);
@@ -68,6 +80,13 @@ public class MessageWidget extends AbstractPage {
                 wait.until(drv -> message.isDisplayed());
                 actions.moveToElement(message);
                 textOfElement = message.getText();
+                break;
+
+            case "тело отправленного письма":
+                wait.until(drv -> sentMessage.isDisplayed());
+                actions.moveToElement(sentMessage);
+                textOfElement = sentMessage.getText();
+                textOfElement = textOfElement.substring(4, textOfElement.length());
                 break;
 
             case "Новое сообщение":
