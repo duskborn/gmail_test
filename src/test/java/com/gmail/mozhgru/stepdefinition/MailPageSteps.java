@@ -49,22 +49,34 @@ public class MailPageSteps {
                 loginPage.fillPassword(value);
                 break;
 
+            case "кому":
+                messageWidget.fillTo(value);
+                break;
+
+            case "тема":
+                messageWidget.fillTheme(value);
+                break;
+
+            case "тело письма":
+                messageWidget.fillMessage(value);
+                break;
+
             default:
                 throw new IllegalArgumentException("Invalid field name:" + fieldName);
         }
-
     }
 
     @И("^нажимает кнопку \"([^\"]*)\"$")
     public void clickButton(String btnName) {
-//        mainPage = new MainPage(driver);
-//        loginPage = new LoginPage(driver);
-//        messageWidget = new MessageWidget(driver);
 
         switch (btnName) {
 
-            case "далее":
-                loginPage.submit();
+            case "далее (пользователь)":
+                loginPage.submitUser();
+                break;
+
+            case "далее (пароль)":
+                loginPage.submitPass();
                 break;
 
             case "готово":
@@ -75,7 +87,7 @@ public class MailPageSteps {
                 mainPage.checkAccount();
                 break;
 
-            case "написать":
+            case "Написать":
                 mainPage.compose();
                 break;
 
@@ -105,7 +117,7 @@ public class MailPageSteps {
     @Тогда("^появилось сообщение о неуспешном входе \"(.+)\"$")
     public void getErrorMessage(String error) {
         mainPage = new MainPage(driver);
-        Assert.assertEquals(mainPage.getTextOfElement(), error);
+        Assert.assertEquals(loginPage.getTextOfElement(), error);
     }
 
 
@@ -146,8 +158,12 @@ public class MailPageSteps {
 
     @И("^видит в поле \"([^\"]*)\" значение \"([^\"]*)\"$")
     public void checkTextInField(String field, String textInField) {
-        messageWidget = new MessageWidget(driver);
         Assert.assertEquals(messageWidget.getTextOfElement(field), textInField);
     }
 
+    @И("^видит, что появился виджет \"([^\"]*)\"$")
+    public void checkMessageWidget(String letterHeaderText) {
+        messageWidget = new MessageWidget(driver);
+        Assert.assertEquals(messageWidget.getTextOfElement(letterHeaderText), letterHeaderText);
+    }
 }
