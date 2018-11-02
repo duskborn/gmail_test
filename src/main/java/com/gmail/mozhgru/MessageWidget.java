@@ -13,10 +13,10 @@ public class MessageWidget extends AbstractPage {
     @FindBy(xpath = "//div[contains(text(), 'Получатели')]")
     private WebElement to;
 
-    @FindBy(xpath = "//span[contains(text(), '@mail.ru')]")
+    @FindBy(xpath = "//div[@tabindex]/div/span[@email]")
     private WebElement draftTo;
 
-    @FindBy(xpath = "//div[@role='main']/div/div/div/table/tbody/tr[1]/td//div[contains(text(), 'Кому')]/span")
+    @FindBy(xpath = "//div[@role='main']//tr[1]//div[contains(text(), 'Кому')]/span[@email]")
     private WebElement sentTo;
 
     @FindBy(xpath = "//textarea[@role='combobox'][@name='to']")
@@ -25,13 +25,13 @@ public class MessageWidget extends AbstractPage {
     @FindBy(xpath = "//input[@name='subjectbox']")
     private WebElement theme;
 
-    @FindBy(xpath = "//div[@role='main']/div/div/div/table/tbody/tr[1]/td/div[@role='link']/div/div/span/span")
+    @FindBy(xpath = "//div[@role='main']//tr[1]//div[@role='link']/div/div/span/span")
     private WebElement draftTheme;
 
     @FindBy(xpath = "//div[@aria-label='Тело письма']")
     private WebElement message;
 
-    @FindBy(xpath = "//div[@role='main']/div/div/div/table/tbody/tr[1]/td//div[@role='link']/div/span")
+    @FindBy(xpath = "//div[@role='main']//tr[1]//div[@role='link']/div/span")
     private WebElement sentMessage;
 
     @FindBy(xpath = "//div[@role='button'][contains(text(), 'Отправить')]")

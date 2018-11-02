@@ -89,7 +89,11 @@ public class MainPage extends  AbstractPage {
     }
 
     public void checkSentMessages() {
-        tryPressButton(bttnSentMessages);
+        try {
+            tryPressButton(bttnSentMessages);
+        } catch (org.openqa.selenium.StaleElementReferenceException ex) {
+            tryPressButton(bttnSentMessages);
+        }
     }
 
 }
