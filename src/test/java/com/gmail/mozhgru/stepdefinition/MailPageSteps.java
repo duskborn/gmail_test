@@ -21,11 +21,11 @@ public class MailPageSteps {
     private LoginPage loginPage = null;
     private MainPage mainPage = null;
     private MessageWidget messageWidget = null;
-    static Logger logger = Logger.getLogger(MailPageSteps.class);
+    private static Logger logger = Logger.getLogger(MailPageSteps.class);
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\mozhg\\jars\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D:\\exe\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         logger.info("before");
@@ -70,7 +70,7 @@ public class MailPageSteps {
             default:
                 throw new IllegalArgumentException("Invalid field name:" + fieldName);
         }
-        logger.info("И пользователь вводит в поле" + fieldName + " значение " + value);
+        logger.info("И пользователь вводит в поле " + fieldName + " значение " + value);
     }
 
     @И("^нажимает кнопку \"([^\"]*)\"$")
@@ -118,7 +118,7 @@ public class MailPageSteps {
             default:
                 throw new IllegalArgumentException("Invalid button name:" + btnName);
         }
-        logger.info("И нажимает кнопку" + btnName);
+        logger.info("И нажимает кнопку " + btnName);
     }
 
 

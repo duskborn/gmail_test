@@ -10,13 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 public class MainPage extends  AbstractPage {
 
-    @FindBy(xpath = "//*[@id='gb']/div[2]/div[6]/div[1]/div/div[2]")
+    @FindBy(xpath = "//div[@aria-label=\"Информация об аккаунте\"]/div[1]/div/div[2]")
     private WebElement profileContainer;
 
     @FindBy(xpath = "//a[contains(text(), 'Выйти')]")
     private WebElement logOut;
 
-    @FindBy(xpath = "//tr[1]//td//div[2]//span[contains(text(), 'Черновик')]")
+    @FindBy(xpath = "//tr[1]//div[2]//span[contains(text(), 'Черновик')]")
     private WebElement lastDraft;
 
     @FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=ru&continue=https://mail.google.com/mail&service=mail']")
