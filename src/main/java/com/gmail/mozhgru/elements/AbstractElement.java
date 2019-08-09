@@ -27,6 +27,10 @@ public abstract class AbstractElement implements IEnabled {
         this.initialElement = initialElement;
     }
 
+//    public AbstractElement(By locator) {
+//        this.initialElement = driver.findElement(locator);
+//    }
+
     public WebElement getInitialElement() {
         return initialElement;
     }

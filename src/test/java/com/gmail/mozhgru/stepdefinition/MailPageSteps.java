@@ -74,61 +74,61 @@ public class MailPageSteps {
         logger.info("И пользователь вводит в поле " + fieldName + " значение " + value);
     }
 
-    @И("нажимает кнопку {string}")
-    public void clickOnButton(String elementName) {
-        AbstractPage activePage = PageHandler.getActivePage();
-        Clickable element = activePage.getElement(elementName);
-        element.click();
-    }
-
-//
-//    @И("^нажимает кнопку \"([^\"]*)\"$")
-//    public void clickButton(String btnName) {
-//
-//        switch (btnName) {
-//
-//            case "далее (пользователь)":
-//                loginPage.submitUser();
-//                break;
-//
-//            case "далее (пароль)":
-//                loginPage.submitPass();
-//                break;
-//
-//            case "готово":
-//                loginPage.done();
-//                break;
-//
-//            case "аккаунт google":
-//                mainPage.checkAccount();
-//                break;
-//
-//            case "Написать":
-//                mainPage.compose();
-//                break;
-//
-//            case "сохранить и закрыть":
-//                messageWidget.saveAndClose();
-//                break;
-//
-//            case "черновики":
-//                mainPage.checkDrafts();
-//                break;
-//
-//            case "отправить":
-//                messageWidget.send();
-//                break;
-//
-//            case "отправленные":
-//                mainPage.checkSentMessages();
-//                break;
-//
-//
-//            default:
-//                throw new IllegalArgumentException("Invalid button name:" + btnName);
-//        }
-//        logger.info("И нажимает кнопку " + btnName);
+//    @И("нажимает кнопку {string}")
+//    public void clickOnButton(String elementName) {
+//        AbstractPage activePage = PageHandler.getActivePage();
+//        Clickable element = activePage.getElement(elementName);
+//        element.click();
 //    }
+
+
+    @И("нажимает кнопку {string}")
+    public void clickButton(String btnName) {
+
+        switch (btnName) {
+
+            case "далее (пользователь)":
+                loginPage.submitUser();
+                break;
+
+            case "далее (пароль)":
+                loginPage.submitPass();
+                break;
+
+            case "готово":
+                loginPage.done();
+                break;
+
+            case "аккаунт google":
+                mainPage.checkAccount();
+                break;
+
+            case "Написать":
+                mainPage.compose();
+                break;
+
+            case "сохранить и закрыть":
+                messageWidget.saveAndClose();
+                break;
+
+            case "черновики":
+                mainPage.checkDrafts();
+                break;
+
+            case "отправить":
+                messageWidget.send();
+                break;
+
+            case "отправленные":
+                mainPage.checkSentMessages();
+                break;
+
+
+            default:
+                throw new IllegalArgumentException("Invalid button name:" + btnName);
+        }
+        logger.info("И нажимает кнопку " + btnName);
+    }
 
 
     @Тогда("^появилось сообщение о неуспешном входе \"(.+)\"$")

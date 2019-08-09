@@ -25,7 +25,6 @@ public class Button extends AbstractElement implements HasText, Clickable {
             DriverUtils
                     .waitFor(10, ExpectedConditions.elementToBeClickable(initialElement))
                     .click();
-            //initialElement.click();
         } catch (Exception e) {
             logger.error("Не удалось выполнить клик по кнопке", e);
         }

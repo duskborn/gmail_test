@@ -2,12 +2,15 @@ package com.gmail.mozhgru.page;
 
 import com.gmail.mozhgru.config.Config;
 import com.gmail.mozhgru.config.PageHandler;
+import com.gmail.mozhgru.elements.Button;
+import com.gmail.mozhgru.elements.Label;
 import com.gmail.mozhgru.utils.DriverUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,15 +18,18 @@ public class MainPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@aria-label=\"Информация об аккаунте\"]/div[1]/div/div[2]")
     private WebElement profileContainer;
+    private Label labelProfileContainer = new Label(profileContainer);
 
     @FindBy(xpath = "//a[contains(text(), 'Выйти')]")
     private WebElement logOut;
+    private Button bttnLogOut = new Button(logOut);
 
     @FindBy(xpath = "//tr[1]//div[2]//span[contains(text(), 'Черновик')]")
     private WebElement lastDraft;
 
     @FindBy(xpath = "//a[@href='https://accounts.google.com/SignOutOptions?hl=ru&continue=https://mail.google.com/mail&service=mail']")
     private WebElement bttnAccount;
+    private Button bttnAcc = new Button(bttnAccount);
 
     @FindBy(xpath = "//div[contains(text(), 'Написать')]")
     private WebElement bttnCompose;
@@ -42,12 +48,12 @@ public class MainPage extends AbstractPage {
     }
 
     public void tryLogOut(){
-        bttnAccount.click();
-        logOut.click();
+        bttnAcc.click();
+        bttnLogOut.click();
     }
 
     public String getCurrentUser(){
-        return profileContainer.getText();
+        return labelProfileContainer.getText();
     }
 
     public void chooseLastDraft(){
@@ -59,7 +65,7 @@ public class MainPage extends AbstractPage {
     }
 
     public void checkAccount() {
-        bttnAccount.click();
+        bttnAcc.click();
     }
 
     public void compose() {
@@ -80,8 +86,7 @@ public class MainPage extends AbstractPage {
 
     @Override
     protected void waitForLoadFinished() {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
-        wait.until(drv -> profileContainer.isDisplayed());
+        new WebDriverWait(driver, 10000).until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 }
