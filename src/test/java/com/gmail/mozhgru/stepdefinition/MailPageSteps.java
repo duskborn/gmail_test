@@ -1,8 +1,8 @@
 package com.gmail.mozhgru.stepdefinition;
 
-import com.gmail.mozhgru.LoginPage;
-import com.gmail.mozhgru.MainPage;
-import com.gmail.mozhgru.MessageWidget;
+import com.gmail.mozhgru.page.LoginPage;
+import com.gmail.mozhgru.page.MainPage;
+import com.gmail.mozhgru.page.MessageWidget;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;

@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.concurrent.TimeUnit;
 
-public class MainPage extends  AbstractPage {
+public class MainPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@aria-label=\"Информация об аккаунте\"]/div[1]/div/div[2]")
     private WebElement profileContainer;
