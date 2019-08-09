@@ -7,7 +7,6 @@ import com.gmail.mozhgru.page.AbstractPage;
 import com.gmail.mozhgru.page.LoginPage;
 import com.gmail.mozhgru.page.MainPage;
 import com.gmail.mozhgru.page.MessageWidget;
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.ru.*;
@@ -26,7 +25,7 @@ public class MailPageSteps {
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "D:\\exe\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", Config.getDriverLocation());
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         logger.info("before");
@@ -141,6 +140,7 @@ public class MailPageSteps {
 
     @Тогда("^открылась главная страница$")
     public void mainPageOpened() {
+        mainPage = new MainPage(driver);
         logger.info("Тогда открылась главная страница.");
     }
 
@@ -183,7 +183,7 @@ public class MailPageSteps {
 
     @И("^видит, что появился виджет \"([^\"]*)\"$")
     public void checkMessageWidget(String letterHeaderText) {
-        messageWidget = new MessageWidget();
+        messageWidget = new MessageWidget(driver);
         Assert.assertEquals(messageWidget.getTextOfElement(letterHeaderText), letterHeaderText);
         logger.info("И видит, что появился виджет " + letterHeaderText);
     }

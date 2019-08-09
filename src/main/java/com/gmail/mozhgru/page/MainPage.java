@@ -1,14 +1,12 @@
 package com.gmail.mozhgru.page;
 
 import com.gmail.mozhgru.config.Config;
-import com.gmail.mozhgru.config.DriverManager;
 import com.gmail.mozhgru.config.PageHandler;
 import com.gmail.mozhgru.utils.DriverUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.concurrent.TimeUnit;
@@ -38,6 +36,10 @@ public class MainPage extends AbstractPage {
 
     @FindBy(xpath = "//tr[1]//td//div[contains(text(), 'Кому')]")
     private WebElement lastLetter;
+
+    public MainPage(WebDriver driver) {
+        super(driver);
+    }
 
     public void tryLogOut(){
         bttnAccount.click();
@@ -76,16 +78,10 @@ public class MainPage extends AbstractPage {
         }
     }
 
-    //TODO state
-    public MainPage() {
-        super(DriverManager.get().findElement(By.xpath("//ion-view[@state = 'добавить стэйт']")));
-    }
-
-    //TODO state
     @Override
     protected void waitForLoadFinished() {
-        DriverUtils.waitFor(Config.getPageLoadingTimeout(), PageHandler.waitForLoadFinished(true, "поменять стэйт"));
-//        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
-//        wait.until(drv -> profileContainer.isDisplayed());
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
+        wait.until(drv -> profileContainer.isDisplayed());
     }
 }

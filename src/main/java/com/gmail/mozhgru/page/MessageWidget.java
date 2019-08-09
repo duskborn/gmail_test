@@ -1,7 +1,6 @@
 package com.gmail.mozhgru.page;
 
 import com.gmail.mozhgru.config.Config;
-import com.gmail.mozhgru.config.DriverManager;
 import com.gmail.mozhgru.config.PageHandler;
 import com.gmail.mozhgru.elements.Button;
 import com.gmail.mozhgru.elements.Label;
@@ -51,9 +50,11 @@ public class MessageWidget extends AbstractPage {
     @FindBy(xpath = "//div[contains(text(), 'Новое сообщение')]")
     private Label letterHeader;
 
-    private MainPage mainPage = null;
-
     private String textOfElement = "";
+
+    public MessageWidget(WebDriver driver) {
+        super(driver);
+    }
 
     public String getTextOfElement(String field){
         Actions actions = new Actions(driver);
@@ -114,15 +115,9 @@ public class MessageWidget extends AbstractPage {
         bttnSend.click();
     }
 
-    //TODO state
-    public MessageWidget() {
-        super(DriverManager.get().findElement(By.xpath("//ion-view[@state = 'добавить стэйт']")));
-    }
-
-    //TODO state
     @Override
     protected void waitForLoadFinished() {
-        DriverUtils.waitFor(Config.getPageLoadingTimeout(), PageHandler.waitForLoadFinished(true, "поменять стэйт"));
-//        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
     }
 }

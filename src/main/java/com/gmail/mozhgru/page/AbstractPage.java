@@ -5,13 +5,9 @@ import com.gmail.mozhgru.config.PageHandler;
 import com.gmail.mozhgru.elements.AbstractElement;
 import com.gmail.mozhgru.exceptions.ElementNotFoundException;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import com.gmail.mozhgru.config.DriverManager;
 import com.gmail.mozhgru.config.Config;
 
 import java.lang.reflect.AccessibleObject;
@@ -25,23 +21,25 @@ import java.util.stream.Collectors;
 
 
 public abstract class AbstractPage {
-    final WebDriver driver = DriverManager.get();
-    private WebElement context;
-    private final WebDriverWait wait = new WebDriverWait(driver, Config.getGlobalTimeout());
+    WebDriver driver;
+    WebDriverWait wait;
+    private static final int POLLING = 100;
+//    private WebElement context;
     private static Logger logger = Logger.getLogger(AbstractElement.class);
 
-    AbstractPage() {
+    AbstractPage(WebDriver driver) {
+        this.driver = driver;
+        wait = new WebDriverWait(driver, Config.getGlobalTimeout(), POLLING);
         waitForLoadFinished();
         PageFactory.initElements(driver, this);
-        PageHandler.putPage(this);
     }
 
-    public AbstractPage(WebElement context) {
-        waitForLoadFinished();
-        this.context = context;
-        PageFactory.initElements(driver, this);
-        PageHandler.putPage(this);
-    }
+//    public AbstractPage(WebElement context) {
+//        waitForLoadFinished();
+//        this.context = context;
+//        PageFactory.initElements(driver, this);
+//        PageHandler.putPage(this);
+//    }
 
     public <T> T getElement(String name) {
         try {

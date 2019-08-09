@@ -1,6 +1,5 @@
 package com.gmail.mozhgru.elements;
 
-import com.gmail.mozhgru.config.DriverManager;
 import com.gmail.mozhgru.interfaces.IEnabled;
 import com.gmail.mozhgru.utils.*;
 
@@ -26,10 +25,6 @@ public abstract class AbstractElement implements IEnabled {
 
     public AbstractElement(WebElement initialElement) {
         this.initialElement = initialElement;
-    }
-
-    public AbstractElement(By locator) {
-        this.initialElement = DriverManager.get().findElement(locator);
     }
 
     public WebElement getInitialElement() {

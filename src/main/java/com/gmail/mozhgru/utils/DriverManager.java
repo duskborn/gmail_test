@@ -1,11 +1,11 @@
-package com.gmail.mozhgru.config;
+package com.gmail.mozhgru.utils;
 
 import com.gmail.mozhgru.exceptions.DriverNotInitializedException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.Optional;
 
-public final class DriverManager {
+public class DriverManager {
 
     private static ThreadLocal<RemoteWebDriver> driverContainer = new ThreadLocal<>();
 

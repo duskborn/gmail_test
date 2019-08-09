@@ -25,11 +25,15 @@ public final class Config {
     }
 
     public static int getGlobalTimeout() {
-        return Integer.parseInt(CONFIG_PROPERTIES.getProperty("timeout.global"));
+        return Integer.parseInt(CONFIG_PROPERTIES.getProperty("timeout.global")) * SECOND;
     }
 
     public static String getAppUrl() {
         return CONFIG_PROPERTIES.getProperty("app.url");
+    }
+
+    public static String getDriverLocation() {
+        return CONFIG_PROPERTIES.getProperty("driver.location");
     }
 
     public static int getAnimationTimeout() {
@@ -37,7 +41,7 @@ public final class Config {
     }
 
     public static int getCommandTimeout() {
-        return Integer.parseInt(CONFIG_PROPERTIES.getProperty("timeout.command"));
+        return Integer.parseInt(CONFIG_PROPERTIES.getProperty("timeout.command")) * SECOND;
     }
 
     public static boolean getWaitStrategy() {

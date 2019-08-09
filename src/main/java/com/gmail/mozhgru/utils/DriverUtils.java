@@ -1,7 +1,6 @@
 package com.gmail.mozhgru.utils;
 
 import com.gmail.mozhgru.config.Config;
-import com.gmail.mozhgru.config.DriverManager;
 import com.gmail.mozhgru.elements.AbstractElement;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
