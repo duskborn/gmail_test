@@ -1,15 +1,16 @@
 package com.gmail.mozhgru.stepdefinition;
 
+import com.gmail.mozhgru.config.Config;
+import com.gmail.mozhgru.config.PageHandler;
+import com.gmail.mozhgru.interfaces.Clickable;
+import com.gmail.mozhgru.page.AbstractPage;
 import com.gmail.mozhgru.page.LoginPage;
 import com.gmail.mozhgru.page.MainPage;
 import com.gmail.mozhgru.page.MessageWidget;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.Пусть;
-import cucumber.api.java.ru.Также;
-import cucumber.api.java.ru.Тогда;
+import cucumber.api.java.ru.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.*;
@@ -37,8 +38,9 @@ public class MailPageSteps {
         logger.info("after");
     }
 
-    @Пусть("^открыта страница входа в приложение '(.+)'$")
-    public void openLoginPage(String url) {
+    @Пусть("^открыта страница входа в приложение")
+    public void openLoginPage() {
+        String url = Config.getAppUrl();
         loginPage = new LoginPage(driver);
         loginPage.open(url);
         logger.info("Пусть открыта страница входа в приложение");
@@ -73,66 +75,72 @@ public class MailPageSteps {
         logger.info("И пользователь вводит в поле " + fieldName + " значение " + value);
     }
 
-    @И("^нажимает кнопку \"([^\"]*)\"$")
-    public void clickButton(String btnName) {
-
-        switch (btnName) {
-
-            case "далее (пользователь)":
-                loginPage.submitUser();
-                break;
-
-            case "далее (пароль)":
-                loginPage.submitPass();
-                break;
-
-            case "готово":
-                loginPage.done();
-                break;
-
-            case "аккаунт google":
-                mainPage.checkAccount();
-                break;
-
-            case "Написать":
-                mainPage.compose();
-                break;
-
-            case "сохранить и закрыть":
-                messageWidget.saveAndClose();
-                break;
-
-            case "черновики":
-                mainPage.checkDrafts();
-                break;
-
-            case "отправить":
-                messageWidget.send();
-                break;
-
-            case "отправленные":
-                mainPage.checkSentMessages();
-                break;
-
-
-            default:
-                throw new IllegalArgumentException("Invalid button name:" + btnName);
-        }
-        logger.info("И нажимает кнопку " + btnName);
+    @И("нажимает кнопку {string}")
+    public void clickOnButton(String elementName) {
+        AbstractPage activePage = PageHandler.getActivePage();
+        Clickable element = activePage.getElement(elementName);
+        element.click();
     }
+
+//
+//    @И("^нажимает кнопку \"([^\"]*)\"$")
+//    public void clickButton(String btnName) {
+//
+//        switch (btnName) {
+//
+//            case "далее (пользователь)":
+//                loginPage.submitUser();
+//                break;
+//
+//            case "далее (пароль)":
+//                loginPage.submitPass();
+//                break;
+//
+//            case "готово":
+//                loginPage.done();
+//                break;
+//
+//            case "аккаунт google":
+//                mainPage.checkAccount();
+//                break;
+//
+//            case "Написать":
+//                mainPage.compose();
+//                break;
+//
+//            case "сохранить и закрыть":
+//                messageWidget.saveAndClose();
+//                break;
+//
+//            case "черновики":
+//                mainPage.checkDrafts();
+//                break;
+//
+//            case "отправить":
+//                messageWidget.send();
+//                break;
+//
+//            case "отправленные":
+//                mainPage.checkSentMessages();
+//                break;
+//
+//
+//            default:
+//                throw new IllegalArgumentException("Invalid button name:" + btnName);
+//        }
+//        logger.info("И нажимает кнопку " + btnName);
+//    }
 
 
     @Тогда("^появилось сообщение о неуспешном входе \"(.+)\"$")
     public void getErrorMessage(String error) {
-        mainPage = new MainPage(driver);
-        Assert.assertEquals(loginPage.getTextOfElement(), error);
+        Assert.assertEquals(loginPage.loginFailed.getText(), error);
         logger.info("Тогда появилось сообщение о неуспешном входе: " + error);
     }
 
 
     @Тогда("^открылась главная страница$")
     public void mainPageOpened() {
-        mainPage = new MainPage(driver);
         logger.info("Тогда открылась главная страница.");
     }
 
@@ -145,14 +153,12 @@ public class MailPageSteps {
 
     @Пусть("^пользователь выходит из учетной записи$")
     public void pressLogout() {
-        mainPage = new MainPage(driver);
         mainPage.tryLogOut();
         logger.info("Пусть пользователь выходит из учетной записи.");
     }
 
     @Тогда("^пользователь выбирает \"([^\"]*)\"$")
     public void chooseElement(String stringElement) {
-        mainPage = new MainPage(driver);
         switch (stringElement) {
 
             case "последний черновик":
@@ -177,7 +183,7 @@ public class MailPageSteps {
 
     @И("^видит, что появился виджет \"([^\"]*)\"$")
     public void checkMessageWidget(String letterHeaderText) {
-        messageWidget = new MessageWidget(driver);
+        messageWidget = new MessageWidget();
         Assert.assertEquals(messageWidget.getTextOfElement(letterHeaderText), letterHeaderText);
         logger.info("И видит, что появился виджет " + letterHeaderText);
     }

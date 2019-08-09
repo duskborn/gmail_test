@@ -1,5 +1,13 @@
-package com.gmail.mozhgru;
+package com.gmail.mozhgru.page;
 
+import com.gmail.mozhgru.config.Config;
+import com.gmail.mozhgru.config.DriverManager;
+import com.gmail.mozhgru.config.PageHandler;
+import com.gmail.mozhgru.elements.Button;
+import com.gmail.mozhgru.elements.Label;
+import com.gmail.mozhgru.elements.TextField;
+import com.gmail.mozhgru.utils.DriverUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,47 +19,41 @@ import java.util.concurrent.TimeUnit;
 public class MessageWidget extends AbstractPage {
 
     @FindBy(xpath = "//div[contains(text(), 'Получатели')]")
-    private WebElement to;
+    private TextField to;
 
     @FindBy(xpath = "//div[@tabindex]/div/span[@email]")
-    private WebElement draftTo;
+    private TextField draftTo;
 
     @FindBy(xpath = "//div[@role='main']//tr[1]//div[contains(text(), 'Кому')]/span[@email]")
-    private WebElement sentTo;
+    private TextField sentTo;
 
     @FindBy(xpath = "//textarea[@role='combobox'][@name='to']")
-    private WebElement toCombobox;
+    private TextField toCombobox;
 
     @FindBy(xpath = "//input[@name='subjectbox']")
-    private WebElement theme;
+    private TextField theme;
 
     @FindBy(xpath = "//div[@role='main']//tr[1]//div[@role='link']/div/div/span/span")
-    private WebElement draftTheme;
+    private TextField draftTheme;
 
     @FindBy(xpath = "//div[@aria-label='Тело письма']")
-    private WebElement message;
+    private TextField message;
 
     @FindBy(xpath = "//div[@role='main']//tr[1]//div[@role='link']/div/span")
     private WebElement sentMessage;
 
     @FindBy(xpath = "//div[@role='button'][contains(text(), 'Отправить')]")
-    private WebElement bttnSend;
+    private Button bttnSend;
 
     @FindBy(xpath = "//img[@aria-label='Сохранить и закрыть']")
-    private WebElement bttnSaveAndClose;
+    private Button bttnSaveAndClose;
 
     @FindBy(xpath = "//div[contains(text(), 'Новое сообщение')]")
-    private WebElement letterHeader;
+    private Label letterHeader;
 
     private MainPage mainPage = null;
 
     private String textOfElement = "";
-
-    public MessageWidget(WebDriver driver) {
-        super(driver);
-        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
-        mainPage = new MainPage(driver);
-    }
 
     public String getTextOfElement(String field){
         Actions actions = new Actions(driver);
@@ -59,39 +61,28 @@ public class MessageWidget extends AbstractPage {
         switch (field) {
 
             case "кому":
-                wait.until(drv -> draftTo.isDisplayed());
-                actions.moveToElement(draftTo);
                 textOfElement = draftTo.getText();
                 break;
 
             case "кому отправленного письма":
-                wait.until(drv -> sentTo.isDisplayed());
-                actions.moveToElement(sentTo);
                 textOfElement = sentTo.getText();
                 break;
 
             case "тема":
-                wait.until(drv -> draftTheme.isDisplayed());
-                actions.moveToElement(draftTheme);
                 textOfElement = draftTheme.getText();
                 break;
 
             case "тело письма":
-                wait.until(drv -> message.isDisplayed());
-                actions.moveToElement(message);
                 textOfElement = message.getText();
                 break;
 
             case "тело отправленного письма":
-                wait.until(drv -> sentMessage.isDisplayed());
                 actions.moveToElement(sentMessage);
                 textOfElement = sentMessage.getText();
                 textOfElement = textOfElement.substring(4, textOfElement.length());
                 break;
 
             case "Новое сообщение":
-                wait.until(drv -> letterHeader.isDisplayed());
-                actions.moveToElement(letterHeader);
                 textOfElement = letterHeader.getText();
                 break;
 
@@ -103,16 +94,16 @@ public class MessageWidget extends AbstractPage {
     }
 
     public void fillTo(String text) {
-        mainPage.tryFillField(toCombobox, text);
+        toCombobox.setText(text);
     }
 
     public void fillTheme(String text) {
-        theme.sendKeys(text);
+        theme.setText(text);
     }
 
     public void fillMessage(String text) {
         message.click();
-        mainPage.tryFillField(message, text);
+        message.setText(text);
     }
 
     public void saveAndClose() {
@@ -120,6 +111,18 @@ public class MessageWidget extends AbstractPage {
     }
 
     public void send() {
-        mainPage.tryPressButton(bttnSend);
+        bttnSend.click();
+    }
+
+    //TODO state
+    public MessageWidget() {
+        super(DriverManager.get().findElement(By.xpath("//ion-view[@state = 'добавить стэйт']")));
+    }
+
+    //TODO state
+    @Override
+    protected void waitForLoadFinished() {
+        DriverUtils.waitFor(Config.getPageLoadingTimeout(), PageHandler.waitForLoadFinished(true, "поменять стэйт"));
+//        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
     }
 }

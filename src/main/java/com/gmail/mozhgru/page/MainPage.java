@@ -1,5 +1,10 @@
-package com.gmail.mozhgru;
+package com.gmail.mozhgru.page;
 
+import com.gmail.mozhgru.config.Config;
+import com.gmail.mozhgru.config.DriverManager;
+import com.gmail.mozhgru.config.PageHandler;
+import com.gmail.mozhgru.utils.DriverUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -34,50 +39,25 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//tr[1]//td//div[contains(text(), 'Кому')]")
     private WebElement lastLetter;
 
-    public MainPage (WebDriver driver){
-        super(driver);
-        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
-    }
-
-    public void tryPressButton(WebElement button){
-        wait.until(drv -> button.isDisplayed());
-        Actions actions = new Actions(driver);
-        actions.moveToElement(button);
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].click()", button);
-    }
-
-    public void tryFillField(WebElement button, String text){
-        wait.until(drv -> button.isDisplayed());
-        Actions actions = new Actions(driver);
-        actions.moveToElement(button);
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].click()", button);
-        wait.until(drv -> button.isEnabled());
-        actions.sendKeys(text);
-        actions.build().perform();
-    }
-
     public void tryLogOut(){
-        tryPressButton(bttnAccount);
-        tryPressButton(logOut);
+        bttnAccount.click();
+        logOut.click();
     }
 
     public String getCurrentUser(){
-        wait.until(drv -> profileContainer.isDisplayed());
         return profileContainer.getText();
     }
 
     public void chooseLastDraft(){
-        tryPressButton(lastDraft);
+        lastDraft.click();
     }
 
     public void chooseLastLetter(){
-        tryPressButton(lastLetter);
+        lastLetter.click();
     }
 
     public void checkAccount() {
-        tryPressButton(bttnAccount);
+        bttnAccount.click();
     }
 
     public void compose() {
@@ -85,15 +65,27 @@ public class MainPage extends AbstractPage {
     }
 
     public void checkDrafts() {
-        tryPressButton(bttnDrafts);
+        bttnDrafts.click();
     }
 
     public void checkSentMessages() {
         try {
-            tryPressButton(bttnSentMessages);
+            bttnSentMessages.click();
         } catch (org.openqa.selenium.StaleElementReferenceException ex) {
-            tryPressButton(bttnSentMessages);
+            bttnSentMessages.click();
         }
     }
 
+    //TODO state
+    public MainPage() {
+        super(DriverManager.get().findElement(By.xpath("//ion-view[@state = 'добавить стэйт']")));
+    }
+
+    //TODO state
+    @Override
+    protected void waitForLoadFinished() {
+        DriverUtils.waitFor(Config.getPageLoadingTimeout(), PageHandler.waitForLoadFinished(true, "поменять стэйт"));
+//        wait.until(drv -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
+//        wait.until(drv -> profileContainer.isDisplayed());
+    }
 }
